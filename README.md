@@ -2,11 +2,12 @@
 
 [![Java Version](https://img.shields.io/badge/Java-17%2B-blue)](https://openjdk.org/projects/jdk/17/)
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.2.2-brightgreen)](https://spring.io/projects/spring-boot)
+[![Azure](https://img.shields.io/badge/Deployment-Azure%20Spring%20Apps-0089D6)](https://azure.microsoft.com/en-us/products/spring-apps)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A REST API that analyzes numbers and returns mathematical properties (prime, perfect, Armstrong, even/odd) with fun facts from [NumbersAPI](http://numbersapi.com/). Built for DevOps Stage 1.
+A REST API that analyzes numbers and returns mathematical properties (prime, perfect, Armstrong, even/odd) with fun facts from [NumbersAPI](http://numbersapi.com/). Deployed on **Azure Spring Apps**.
 
-**Live Demo**: [https://number-classification-api.herokuapp.com](https://number-classification-api.herokuapp.com)  
+**Live Demo**: [https://your-app-name.azuremicroservices.io](https://your-app-name.azuremicroservices.io)  
 
 ---
 
@@ -15,7 +16,7 @@ A REST API that analyzes numbers and returns mathematical properties (prime, per
 - [Tech Stack](#tech-stack-)
 - [API Documentation](#api-documentation-)
 - [Getting Started](#getting-started-)
-- [Deployment](#deployment-)
+- [Azure Deployment](#azure-deployment-)
 - [Testing Examples](#testing-examples-)
 - [Contributing](#contributing-)
 
@@ -32,11 +33,10 @@ A REST API that analyzes numbers and returns mathematical properties (prime, per
 
 ## Tech Stack 🛠️
 - **Backend**: Java 17, Spring Boot 3.2.2
+- **Cloud Deployment**: Azure Spring Apps
 - **Dependency Management**: Maven
 - **HTTP Client**: RestTemplate
-- **Documentation**: OpenAPI/Swagger (optional)
 - **Testing**: JUnit 5, Mockito
-- **Deployment**: Heroku/Azure
 
 ---
 
@@ -81,6 +81,8 @@ GET /api/classify-number?number={number}
 ### Prerequisites
 - Java 17+
 - Maven 3.9+
+- [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
+- Azure Subscription ([Free Trial](https://azure.microsoft.com/en-us/free/))
 
 ### Local Setup
 1. Clone the repo:
@@ -100,24 +102,52 @@ GET /api/classify-number?number={number}
 
 ---
 
-## Deployment ☁️
+## Azure Deployment ☁️
 
-### Heroku
-1. Create a Heroku app:
+### Step 1: Prepare Azure Environment
+1. **Login to Azure CLI**:
    ```bash
-   heroku create your-app-name
+   az login
    ```
-2. Deploy:
+2. **Install Azure Spring Apps Extension**:
    ```bash
-   git push heroku main
-   ```
-3. Open in browser:
-   ```bash
-   heroku open
+   az extension add --name spring
    ```
 
-### Azure
-Follow the [Azure Spring Apps deployment guide](https://learn.microsoft.com/en-us/azure/spring-apps/).
+### Step 2: Create Azure Resources
+1. **Create a Resource Group**:
+   ```bash
+   az group create --name your-resource-group --location eastus
+   ```
+2. **Create an Azure Spring Apps Instance**:
+   ```bash
+   az spring create --name your-spring-apps-service --resource-group your-resource-group --location eastus
+   ```
+
+### Step 3: Deploy the Application
+1. **Build the JAR**:
+   ```bash
+   mvn clean package -DskipTests
+   ```
+2. **Deploy to Azure Spring Apps**:
+   ```bash
+   az spring app deploy \
+       --name number-classification-api \
+       --resource-group your-resource-group \
+       --service your-spring-apps-service \
+       --runtime-version Java_17 \
+       --artifact-path target/number-classification-api-1.0-SNAPSHOT.jar
+   ```
+
+### Step 4: Access the Deployed API
+1. **Get the Public URL**:
+   ```bash
+   az spring app show --name number-classification-api --resource-group your-resource-group --service your-spring-apps-service --query properties.url
+   ```
+2. **Test the Live API**:
+   ```bash
+   curl "https://your-app-name.azuremicroservices.io/api/classify-number?number=371"
+   ```
 
 ---
 
@@ -126,19 +156,19 @@ Follow the [Azure Spring Apps deployment guide](https://learn.microsoft.com/en-u
 ### Valid Requests
 ```bash
 # Armstrong + Odd
-curl "https://your-api-url/api/classify-number?number=371"
+curl "https://your-app-name.azuremicroservices.io/api/classify-number?number=371"
 
 # Perfect + Even
-curl "https://your-api-url/api/classify-number?number=28"
+curl "https://your-app-name.azuremicroservices.io/api/classify-number?number=28"
 
 # Prime
-curl "https://your-api-url/api/classify-number?number=7"
+curl "https://your-app-name.azuremicroservices.io/api/classify-number?number=7"
 ```
 
 ### Invalid Requests
 ```bash
-curl "https://your-api-url/api/classify-number?number=3.14"
-curl "https://your-api-url/api/classify-number?number=abc"
+curl "https://your-app-name.azuremicroservices.io/api/classify-number?number=3.14"
+curl "https://your-app-name.azuremicroservices.io/api/classify-number?number=abc"
 ```
 
 ---
@@ -166,4 +196,4 @@ Distributed under the MIT License. See [LICENSE](LICENSE) for details.
 
 ---
 
-**Happy number crunching!** 🎉  
+**Happy number crunching on Azure!** 🚀  
