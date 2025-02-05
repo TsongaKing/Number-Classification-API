@@ -49,7 +49,7 @@ A REST API that classifies numbers and returns their mathematical properties (pr
 400 Bad Request
 
 json
-Copy
+
 {
     "number": "alphabet",
     "error": true
@@ -64,31 +64,31 @@ Steps
 Clone the Repository
 
 bash
-Copy
+
 git clone https://github.com/your-username/number-classification-api.git
 Build & Run
 
 bash
-Copy
+
 cd number-classification-api
 mvn clean install
 mvn spring-boot:run
 Test Locally
 
 bash
-Copy
+
 curl "http://localhost:8080/api/classify-number?number=371"
 Deployment ☁️
 Heroku
 Create a Procfile in the root directory:
 
 plaintext
-Copy
+
 web: java -jar target/number-classification-api-1.0-SNAPSHOT.jar
 Push to Heroku:
 
 bash
-Copy
+
 heroku create
 git push heroku main
 Azure
@@ -97,7 +97,7 @@ Follow Azure Spring Apps deployment guide.
 Testing Examples 🧪
 Valid Requests
 bash
-Copy
+
 # Armstrong + Odd
 curl "https://your-api-url/api/classify-number?number=371"  
 
@@ -108,7 +108,7 @@ curl "https://your-api-url/api/classify-number?number=28"
 curl "https://your-api-url/api/classify-number?number=7"  
 Invalid Requests
 bash
-Copy
+
 curl "https://your-api-url/api/classify-number?number=abc"  
 Contribution 🤝
 Contributions are welcome!
@@ -127,11 +127,3 @@ License 📄
 MIT License. See LICENSE for details.
 
 Happy Classifying! 🎉
-
-
-This README includes:  
-- Clear usage examples  
-- Deployment guides  
-- API response formats  
-- Contribution guidelines  
-- Links to external tools/APIs  
