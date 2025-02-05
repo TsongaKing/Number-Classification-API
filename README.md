@@ -1,41 +1,59 @@
-markdown
+# Number Classification API 🔢
 
-# Number Classification API 🌟  
-**DevOps Stage 1 - Number Classification API**  
+[![Java Version](https://img.shields.io/badge/Java-17%2B-blue)](https://openjdk.org/projects/jdk/17/)
+[![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.2.2-brightgreen)](https://spring.io/projects/spring-boot)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A REST API that classifies numbers and returns their mathematical properties (prime, perfect, Armstrong, even/odd) along with fun facts from [NumbersAPI](http://numbersapi.com/).  
+A REST API that analyzes numbers and returns mathematical properties (prime, perfect, Armstrong, even/odd) with fun facts from [NumbersAPI](http://numbersapi.com/). Built for DevOps Stage 1.
 
----
-
-## Features ✨  
-- **Classify Numbers**: Determine if a number is prime, perfect, Armstrong, even/odd, and its digit sum.  
-- **Fun Facts**: Fetch interesting mathematical facts from NumbersAPI.  
-- **Error Handling**: Returns `400 Bad Request` for invalid inputs.  
-- **CORS Support**: Pre-configured for cross-origin requests.  
-- **Deployment Ready**: Optimized for Heroku/Azure deployment.  
+**Live Demo**: [https://number-classification-api.herokuapp.com](https://number-classification-api.herokuapp.com)  
 
 ---
 
-## Technologies 🛠️  
-- **Java 17** | **Spring Boot 3.2.2**  
-- **Lombok** | **RestTemplate** | **Maven**  
-- **Heroku/Azure** (Deployment)  
-- **JUnit 5** | **Mockito** (Testing)  
-- **OpenAPI/Swagger** (Optional Documentation)  
+## Table of Contents 📑
+- [Features](#features-)
+- [Tech Stack](#tech-stack-)
+- [API Documentation](#api-documentation-)
+- [Getting Started](#getting-started-)
+- [Deployment](#deployment-)
+- [Testing Examples](#testing-examples-)
+- [Contributing](#contributing-)
 
 ---
 
-## API Documentation 📚  
+## Features ✨
+- 🧮 **Number Classification**: Checks if a number is prime, perfect, Armstrong, even/odd.
+- 🔍 **Digit Sum Calculation**: Computes the sum of a number's digits.
+- 🎉 **Fun Facts**: Fetches interesting math facts from NumbersAPI.
+- 🛡️ **Error Handling**: Returns structured JSON errors for invalid inputs.
+- 🌍 **CORS Support**: Pre-configured for cross-origin requests.
 
-### Endpoint  
-`GET /api/classify-number`  
+---
 
-#### Parameters  
-| Name   | Type   | Required | Description          |  
-|--------|--------|----------|----------------------|  
-| `number` | String | Yes      | Integer to classify. |  
+## Tech Stack 🛠️
+- **Backend**: Java 17, Spring Boot 3.2.2
+- **Dependency Management**: Maven
+- **HTTP Client**: RestTemplate
+- **Documentation**: OpenAPI/Swagger (optional)
+- **Testing**: JUnit 5, Mockito
+- **Deployment**: Heroku/Azure
 
-#### Responses  
+---
+
+## API Documentation 📚
+
+### Endpoint
+```http
+GET /api/classify-number?number={number}
+```
+
+### Parameters
+| Name     | Type   | Required | Example  |
+|----------|--------|----------|----------|
+| `number` | String | Yes      | `371`    |
+
+### Responses
+
 **200 OK**  
 ```json
 {
@@ -44,86 +62,108 @@ A REST API that classifies numbers and returns their mathematical properties (pr
     "is_perfect": false,
     "properties": ["armstrong", "odd"],
     "digit_sum": 11,
-    "fun_fact": "371 is an Armstrong number."
+    "fun_fact": "371 is an Armstrong number because 3^3 + 7^3 + 1^3 = 371"
 }
-400 Bad Request
+```
 
-json
-
+**400 Bad Request**  
+```json
 {
     "number": "alphabet",
     "error": true
 }
-Setup & Run 🚀
-Prerequisites
-Java 17
+```
 
-Maven 3.9+
+---
 
-Steps
-Clone the Repository
+## Getting Started 🚀
 
-bash
+### Prerequisites
+- Java 17+
+- Maven 3.9+
 
-git clone https://github.com/your-username/number-classification-api.git
-Build & Run
+### Local Setup
+1. Clone the repo:
+   ```bash
+   git clone https://github.com/your-username/number-classification-api.git
+   cd number-classification-api
+   ```
+2. Build and run:
+   ```bash
+   mvn clean install
+   mvn spring-boot:run
+   ```
+3. Test locally:
+   ```bash
+   curl "http://localhost:8080/api/classify-number?number=371"
+   ```
 
-bash
+---
 
-cd number-classification-api
-mvn clean install
-mvn spring-boot:run
-Test Locally
+## Deployment ☁️
 
-bash
+### Heroku
+1. Create a Heroku app:
+   ```bash
+   heroku create your-app-name
+   ```
+2. Deploy:
+   ```bash
+   git push heroku main
+   ```
+3. Open in browser:
+   ```bash
+   heroku open
+   ```
 
-curl "http://localhost:8080/api/classify-number?number=371"
-Deployment ☁️
-Heroku
-Create a Procfile in the root directory:
+### Azure
+Follow the [Azure Spring Apps deployment guide](https://learn.microsoft.com/en-us/azure/spring-apps/).
 
-plaintext
+---
 
-web: java -jar target/number-classification-api-1.0-SNAPSHOT.jar
-Push to Heroku:
+## Testing Examples 🧪
 
-bash
-
-heroku create
-git push heroku main
-Azure
-Follow Azure Spring Apps deployment guide.
-
-Testing Examples 🧪
-Valid Requests
-bash
-
+### Valid Requests
+```bash
 # Armstrong + Odd
-curl "https://your-api-url/api/classify-number?number=371"  
+curl "https://your-api-url/api/classify-number?number=371"
 
-# Even
-curl "https://your-api-url/api/classify-number?number=28"  
+# Perfect + Even
+curl "https://your-api-url/api/classify-number?number=28"
 
 # Prime
-curl "https://your-api-url/api/classify-number?number=7"  
-Invalid Requests
-bash
+curl "https://your-api-url/api/classify-number?number=7"
+```
 
-curl "https://your-api-url/api/classify-number?number=abc"  
-Contribution 🤝
-Contributions are welcome!
+### Invalid Requests
+```bash
+curl "https://your-api-url/api/classify-number?number=3.14"
+curl "https://your-api-url/api/classify-number?number=abc"
+```
 
-Fork the repository.
+---
 
-Create a feature branch (git checkout -b feature/your-feature).
+## Contributing 🤝
+1. Fork the repository.
+2. Create a feature branch:
+   ```bash
+   git checkout -b feature/your-feature
+   ```
+3. Commit changes:
+   ```bash
+   git commit -m "Add your feature"
+   ```
+4. Push to branch:
+   ```bash
+   git push origin feature/your-feature
+   ```
+5. Open a Pull Request.
 
-Commit changes (git commit -m 'Add your feature').
+---
 
-Push to the branch (git push origin feature/your-feature).
+## License 📄
+Distributed under the MIT License. See [LICENSE](LICENSE) for details.
 
-Open a Pull Request.
+---
 
-License 📄
-MIT License. See LICENSE for details.
-
-Happy Classifying! 🎉
+**Happy number crunching!** 🎉  
