@@ -19,42 +19,48 @@ public class NumberUtils {
     }
 
     public static boolean isPerfect(int number) {
-        int sum = 0;
-        for (int i = 1; i <= number / 2; i++) {
-            if (number % i == 0) sum += i;
+        if (number <= 1) return false;
+        int sum = 1;
+        for (int i = 2; i <= Math.sqrt(number); i++) {
+            if (number % i == 0) {
+                sum += i;
+                int complement = number / i;
+                if (complement != i) sum += complement;
+            }
         }
         return sum == number;
     }
 
     public static int digitSum(int number) {
+        int absoluteNumber = Math.abs(number);
         int sum = 0;
-        while (number > 0) {
-            sum += number % 10;
-            number /= 10;
+        while (absoluteNumber > 0) {
+            sum += absoluteNumber % 10;
+            absoluteNumber /= 10;
         }
         return sum;
     }
 
-    public static List<String> getProperties(int number) {
-        List<String> properties = new ArrayList<>();
-        if (isArmstrong(number)) {
-            properties.add("armstrong");
-        }
-        if (number % 2 == 0) {
-            properties.add("even");
-        } else {
-            properties.add("odd");
-        }
-        return properties;
-    }
-
     public static boolean isArmstrong(int number) {
-        int sum = 0, temp = number, digits = String.valueOf(number).length();
-        while (temp > 0) {
-            int digit = temp % 10;
+        int original = number;
+        int digits = String.valueOf(original).length();
+        int sum = 0;
+        while (original > 0) {
+            int digit = original % 10;
             sum += Math.pow(digit, digits);
-            temp /= 10;
+            original /= 10;
         }
         return sum == number;
+    }
+
+    public static boolean isEven(int number) {
+        return number % 2 == 0;
+    }
+
+    public static List<String> getProperties(int number) {
+        List<String> properties = new ArrayList<>();
+        if (isArmstrong(number)) properties.add("armstrong");
+        properties.add(isEven(number) ? "even" : "odd");
+        return properties;
     }
 }

@@ -4,22 +4,19 @@
  */
 package com.devops.numberclassification.api.config;
 
+import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springdoc.core.models.GroupedOpenApi;
 
 @Configuration
-@EnableWebMvc
 public class SwaggerConfig {
-
     @Bean
     public GroupedOpenApi publicApi() {
         return GroupedOpenApi.builder()
-                .group("public-api")
-                .packagesToScan("com.devops.numberclassification.api")
-                .pathsToMatch("/api/**")
-                .build();
+            .group("public-api")
+            .packagesToScan("com.devops.numberclassification.api.controller")
+            .pathsToMatch("/api/**")
+            .build();
     }
 }
 

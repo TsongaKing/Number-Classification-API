@@ -6,15 +6,13 @@ package com.devops.numberclassification.api.service;
 
 import com.devops.numberclassification.api.dto.response.NumberResponse;
 import com.devops.numberclassification.api.util.NumberUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class NumberServiceImpl implements NumberServiceInterface {
 
@@ -26,39 +24,26 @@ public class NumberServiceImpl implements NumberServiceInterface {
 
     @Override
     public NumberResponse classifyNumber(int number) {
-        boolean isPrime = NumberUtils.isPrime(number);
-        boolean isPerfect = NumberUtils.isPerfect(number);
-        List<String> properties = NumberUtils.getProperties(number);
-        int digitSum = NumberUtils.digitSum(number);
-        String funFact = getFunFact(number);
-
         return NumberResponse.builder()
-                .number(number)
-                .isPrime(isPrime)
-                .isPerfect(isPerfect)
-                .properties(properties)
-                .digitSum(digitSum)
-                .funFact(funFact)
-                .build();
+            .number(number)
+            .isPrime(NumberUtils.isPrime(number))
+            .isPerfect(NumberUtils.isPerfect(number))
+            .properties(NumberUtils.getProperties(number))
+            .digitSum(NumberUtils.digitSum(number))
+            .funFact(fetchFunFact(number))
+            .build();
     }
 
-    @Override
-    public List<NumberResponse> classifyNumbers(List<Integer> numbers) {
-        return numbers.stream()
-                .map(this::classifyNumber)
-                .collect(Collectors.toList());
-    }
-
-    private String getFunFact(int number) {
-        String url = "http://numbersapi.com/" + number + "/math?json";
+    private String fetchFunFact(int number) {
         try {
-            ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
+            String url = "http://numbersapi.com/" + number + "/math?json";
+            var response = restTemplate.getForEntity(url, Map.class);
             if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
                 return response.getBody().get("text").toString();
             }
         } catch (Exception e) {
-            System.err.println("Error fetching fun fact: " + e.getMessage());
+            log.error("Failed to fetch fun fact: {}", e.getMessage());
         }
-        return "No fun fact available.";
+        return ""; // Empty string on failure
     }
 }

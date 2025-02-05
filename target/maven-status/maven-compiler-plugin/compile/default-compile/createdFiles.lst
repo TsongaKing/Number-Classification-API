@@ -1,6 +1,5 @@
 com\devops\numberclassification\api\config\AppConfig.class
 com\devops\numberclassification\api\dto\response\NumberResponse.class
-com\devops\numberclassification\api\exception\GlobalExceptionHandler.class
 com\devops\numberclassification\api\dto\response\NumberResponse$NumberResponseBuilder.class
 com\devops\numberclassification\api\NumberClassificationApi.class
 com\devops\numberclassification\api\config\WebConfig.class

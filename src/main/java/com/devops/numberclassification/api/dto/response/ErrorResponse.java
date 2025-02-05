@@ -7,17 +7,14 @@ package com.devops.numberclassification.api.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @Builder
 @AllArgsConstructor
 public class ErrorResponse {
-    @Builder.Default
-    private Object number = "alphabet"; // Set default value as "alphabet"
-    
-    @Builder.Default
-    private boolean error = true;       // Set 'error' as true
+    private String number;
+    private final boolean error = true; // Always true
 }
 
 
