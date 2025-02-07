@@ -22,7 +22,7 @@ import java.util.List;
 
 )
 public class NumberResponse {
-    private int number;
+    private double number; // Change from int to double
 
     @JsonProperty("is_prime")
     private boolean isPrime;

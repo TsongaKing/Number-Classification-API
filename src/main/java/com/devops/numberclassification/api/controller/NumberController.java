@@ -17,15 +17,16 @@ public class NumberController {
     }
 
     @GetMapping("/classify-number")
-    public ResponseEntity<?> classifyNumber(@RequestParam String number) {
-        try {
-            String trimmedNumber = number.trim();
-            int num = Integer.parseInt(trimmedNumber);
-            return ResponseEntity.ok(numberService.classifyNumber(num));
-        } catch (NumberFormatException e) {
-            return ResponseEntity.badRequest().body(
-                ErrorResponse.builder().number(number).build()
-            );
-        }
+public ResponseEntity<?> classifyNumber(@RequestParam String number) {
+    try {
+        String trimmedNumber = number.trim();
+        double numDouble = Double.parseDouble(trimmedNumber); // Parse as double
+        int num = (int) numDouble; // Truncate decimal part (e.g., 3.14 → 3)
+        return ResponseEntity.ok(numberService.classifyNumber(num));
+    } catch (NumberFormatException e) {
+        return ResponseEntity.badRequest().body(
+            ErrorResponse.builder().number(number).build()
+        );
     }
+}
 }
