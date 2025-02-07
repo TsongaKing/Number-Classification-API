@@ -5,7 +5,6 @@ C:\Users\phang\OneDrive\Documents\NetBeansProjects\number-classification-api\src
 C:\Users\phang\OneDrive\Documents\NetBeansProjects\number-classification-api\src\main\java\com\devops\numberclassification\api\NumberClassificationApi.java
 C:\Users\phang\OneDrive\Documents\NetBeansProjects\number-classification-api\src\main\java\com\devops\numberclassification\api\dto\response\ErrorResponse.java
 C:\Users\phang\OneDrive\Documents\NetBeansProjects\number-classification-api\src\main\java\com\devops\numberclassification\api\service\NumberServiceInterface.java
-C:\Users\phang\OneDrive\Documents\NetBeansProjects\number-classification-api\src\main\java\com\devops\numberclassification\api\config\SwaggerConfig.java
 C:\Users\phang\OneDrive\Documents\NetBeansProjects\number-classification-api\src\main\java\com\devops\numberclassification\api\dto\response\NumberResponse.java
 C:\Users\phang\OneDrive\Documents\NetBeansProjects\number-classification-api\src\main\java\com\devops\numberclassification\api\util\NumberUtils.java
 C:\Users\phang\OneDrive\Documents\NetBeansProjects\number-classification-api\src\main\java\com\devops\numberclassification\api\service\NumberServiceImpl.java

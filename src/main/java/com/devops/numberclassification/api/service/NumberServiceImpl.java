@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.devops.numberclassification.api.service;
 
 import com.devops.numberclassification.api.dto.response.NumberResponse;
@@ -34,16 +31,24 @@ public class NumberServiceImpl implements NumberServiceInterface {
             .build();
     }
 
-    private String fetchFunFact(int number) {
-        try {
-            String url = "http://numbersapi.com/" + number + "/math?json";
-            var response = restTemplate.getForEntity(url, Map.class);
-            if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-                return response.getBody().get("text").toString();
-            }
-        } catch (Exception e) {
-            log.error("Failed to fetch fun fact: {}", e.getMessage());
-        }
-        return ""; // Empty string on failure
+   private String fetchFunFact(int number) {
+    if (NumberUtils.isArmstrong(number)) {
+        // Custom Armstrong fact
+        String digits = String.valueOf(number).replace("", " ").trim(); // "3 7 1"
+        int length = digits.split(" ").length;
+        String formula = digits.replace(" ", "^" + length + " + ") 
+                             + "^" + length + " = " + number;
+        return number + " is an Armstrong number because " + formula;
     }
+    try {
+        String url = "http://numbersapi.com/" + number + "/math?json";
+        var response = restTemplate.getForEntity(url, Map.class);
+        if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+            return response.getBody().get("text").toString();
+        }
+    } catch (Exception e) {
+        log.error("Failed to fetch fun fact: {}", e.getMessage());
+    }
+    return "";
+}
 }

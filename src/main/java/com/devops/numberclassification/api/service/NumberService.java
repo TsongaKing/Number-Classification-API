@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.devops.numberclassification.api.service;
 
 import com.devops.numberclassification.api.dto.response.NumberResponse;
@@ -12,19 +9,16 @@ import java.util.List;
 
 @Service
 public class NumberService {
-
     public NumberResponse classifyNumber(int number) {
-        // Build the response using Lombok builder pattern
-        NumberResponse response = NumberResponse.builder()
-                .number(number)
-                .properties(classifyProperties(number))
-                .digitSum(calculateDigitSum(number))
-                .funFact(generateFunFact(number))
-                .isPrime(isPrime(number))
-                .isPerfect(isPerfect(number))
-                .build();
+        return NumberResponse.builder()
+            .number(number)
+            .isPrime(isPrime(number))      // Ensure these are included
+            .isPerfect(isPerfect(number))  // in the builder
+            .properties(classifyProperties(number))
+            .digitSum(calculateDigitSum(number))
+            .funFact(generateFunFact(number))
+            .build();
 
-        return response;
     }
 
     private List<String> classifyProperties(int number) {
