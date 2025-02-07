@@ -13,27 +13,27 @@ import java.util.List;
 @NoArgsConstructor
 @JsonPropertyOrder({
     "number",
+    "isInteger",
     "is_prime",
     "is_perfect",
     "properties",
     "digit_sum",
     "fun_fact"
-}
-
-)
+})
 public class NumberResponse {
-    private double number; // Change from int to double
+    private double number;
+    private boolean isInteger;
 
     @JsonProperty("is_prime")
-    private boolean isPrime;
+    private Boolean isPrime;
 
     @JsonProperty("is_perfect")
-    private boolean isPerfect;
+    private Boolean isPerfect;
 
     private List<String> properties;
 
     @JsonProperty("digit_sum")
-    private int digitSum;
+    private Integer digitSum;
 
     @JsonProperty("fun_fact")
     private String funFact;

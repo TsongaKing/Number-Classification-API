@@ -20,10 +20,12 @@ public class NumberController {
 public ResponseEntity<?> classifyNumber(@RequestParam String number) {
     try {
         String trimmedNumber = number.trim();
-        double numDouble = Double.parseDouble(trimmedNumber); // Parse as double
-        int num = (int) numDouble; // Truncate decimal part (e.g., 3.14 → 3)
-        return ResponseEntity.ok(numberService.classifyNumber(num));
+        double parsedNumber = Double.parseDouble(trimmedNumber); // Parse as double
+        
+        // Return 200 OK for all numeric inputs (including floating-point)
+        return ResponseEntity.ok(numberService.classifyNumber(parsedNumber));
     } catch (NumberFormatException e) {
+        // Return 400 Bad Request only for non-numeric inputs (e.g., "abc")
         return ResponseEntity.badRequest().body(
             ErrorResponse.builder().number(number).build()
         );
