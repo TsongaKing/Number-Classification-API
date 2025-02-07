@@ -18,7 +18,9 @@ import java.util.List;
     "properties",
     "digit_sum",
     "fun_fact"
-})
+}
+
+)
 public class NumberResponse {
     private int number;
 

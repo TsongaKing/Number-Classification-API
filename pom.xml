@@ -81,6 +81,12 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>io.github.u004</groupId>
+            <artifactId>slf4j-ext</artifactId>
+            <version>2.0.3</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 
     <build>
