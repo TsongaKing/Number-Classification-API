@@ -3,11 +3,12 @@ package com.devops.numberclassification.api.controller;
 import com.devops.numberclassification.api.dto.response.ErrorResponse;
 import com.devops.numberclassification.api.dto.response.NumberResponse;
 import com.devops.numberclassification.api.service.NumberServiceInterface;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 public class NumberController {
 
     private final NumberServiceInterface numberService;
@@ -21,11 +22,13 @@ public class NumberController {
         try {
             String trimmedNumber = number.trim();
             double parsedNumber = Double.parseDouble(trimmedNumber);
-            return ResponseEntity.ok(numberService.classifyNumber(parsedNumber));
+            return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(numberService.classifyNumber(parsedNumber));
         } catch (NumberFormatException e) {
-            return ResponseEntity.badRequest().body(
-                ErrorResponse.builder().number(number).build()
-            );
+            return ResponseEntity.badRequest()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(ErrorResponse.builder().number(number).build());
         }
     }
 }

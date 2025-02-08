@@ -2,6 +2,7 @@ C:\Users\phang\OneDrive\Documents\NetBeansProjects\number-classification-api\src
 C:\Users\phang\OneDrive\Documents\NetBeansProjects\number-classification-api\src\main\java\com\devops\numberclassification\api\config\AppConfig.java
 C:\Users\phang\OneDrive\Documents\NetBeansProjects\number-classification-api\src\main\java\com\devops\numberclassification\api\config\WebConfig.java
 C:\Users\phang\OneDrive\Documents\NetBeansProjects\number-classification-api\src\main\java\com\devops\numberclassification\api\service\NumberService.java
+C:\Users\phang\OneDrive\Documents\NetBeansProjects\number-classification-api\src\main\java\com\devops\numberclassification\api\exception\GlobalExceptionHandler.java
 C:\Users\phang\OneDrive\Documents\NetBeansProjects\number-classification-api\src\main\java\com\devops\numberclassification\api\NumberClassificationApi.java
 C:\Users\phang\OneDrive\Documents\NetBeansProjects\number-classification-api\src\main\java\com\devops\numberclassification\api\dto\response\ErrorResponse.java
 C:\Users\phang\OneDrive\Documents\NetBeansProjects\number-classification-api\src\main\java\com\devops\numberclassification\api\service\NumberServiceInterface.java

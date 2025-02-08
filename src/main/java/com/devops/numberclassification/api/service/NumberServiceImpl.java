@@ -19,57 +19,54 @@ public class NumberServiceImpl implements NumberServiceInterface {
     }
 
     @Override
-public NumberResponse classifyNumber(double number) {
-    boolean isInteger = (number == Math.floor(number)) && !Double.isInfinite(number);
-    int integerValue = (int) number;
+    public NumberResponse classifyNumber(double number) {
+        boolean isInteger = (number == Math.floor(number)) && !Double.isInfinite(number);
+        int integerValue = (int) number;
 
-    NumberResponse.NumberResponseBuilder builder = NumberResponse.builder()
-        .number(isInteger ? integerValue : number) // Remove .0 for integers
-        .isPrime(null)
-        .isPerfect(null)
-        .digitSum(null);
+        return NumberResponse.builder()
+    .number(isInteger ? integerValue : number) // Now matches @JsonProperty
+    .isPrime(isInteger ? NumberUtils.isPrime(integerValue) : null)
+    .isPerfect(isInteger ? NumberUtils.isPerfect(integerValue) : null)
+    .properties(buildProperties(integerValue, isInteger))
+    .digitSum(isInteger ? NumberUtils.digitSum(integerValue) : null)
+    .funFact(isInteger ? fetchFunFact(integerValue) : "Non-integer numbers cannot be classified as prime, perfect, or Armstrong.")
+    .build();
+    }
 
-    if (isInteger) {
-        List<String> properties = new ArrayList<>();
-        // Sign property
-        properties.add(integerValue < 0 ? "negative" : "positive");
-        // Even/odd
-        properties.add(NumberUtils.isEven(integerValue) ? "even" : "odd");
-        // Special numbers
-        if (NumberUtils.isArmstrong(integerValue)) {
-            properties.add("armstrong");
-        }
+    private Number formatNumber(double number, boolean isInteger) {
+        return isInteger ? (int) number : number;
+    }
+
+    private List<String> buildProperties(int number, boolean isInteger) {
+        if (!isInteger) return List.of("non-integer");
         
-        builder.isPrime(NumberUtils.isPrime(integerValue))
-               .isPerfect(NumberUtils.isPerfect(integerValue))
-               .properties(properties)
-               .digitSum(NumberUtils.digitSum(integerValue))
-               .funFact(fetchFunFact(integerValue));
-    } else {
-        builder.properties(List.of("non-integer"))
-               .funFact("Non-integer numbers cannot be classified as prime, perfect, or Armstrong.");
+        List<String> props = new ArrayList<>();
+        props.add(number < 0 ? "negative" : "positive");
+        props.add(NumberUtils.isEven(number) ? "even" : "odd");
+        if (NumberUtils.isArmstrong(number)) props.add("armstrong");
+        return props;
     }
 
-    return builder.build();
-}
-
-private String fetchFunFact(int number) {
-    if (NumberUtils.isArmstrong(number)) {
-        String digits = String.valueOf(Math.abs(number))
-                           .replace("", " ")
-                           .trim()
-                           .replace(" ", "^" + String.valueOf(number).length() + " + ");
-        return number + " is an Armstrong number because " + digits + "= " + Math.abs(number);
-    }
-    try {
-        String url = "http://numbersapi.com/" + number + "/math?json";
-        var response = restTemplate.getForEntity(url, Map.class);
-        if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-            return response.getBody().get("text").toString();
+    private String fetchFunFact(int number) {
+        if (NumberUtils.isArmstrong(number)) {
+            String digits = String.valueOf(Math.abs(number));
+            String formula = digits.chars()
+                .mapToObj(c -> String.valueOf((char) c))
+                .map(d -> d + "^" + digits.length())
+                .reduce((a, b) -> a + " + " + b)
+                .orElse("");
+            return number + " is an Armstrong number because " + formula + " = " + Math.abs(number);
         }
-    } catch (Exception e) {
-        log.error("Failed to fetch fun fact: {}", e.getMessage());
+
+        try {
+            String url = "http://numbersapi.com/" + number + "/math?json";
+            var response = restTemplate.getForEntity(url, Map.class);
+            if (response.getStatusCode() == HttpStatus.OK) {
+                return response.getBody().get("text").toString();
+            }
+        } catch (Exception e) {
+            log.error("Fun fact API error: {}", e.getMessage());
+        }
+        return "";
     }
-    return "";
-}
 }
