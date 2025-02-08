@@ -6,8 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -26,19 +25,28 @@ public class NumberServiceImpl implements NumberServiceInterface {
 
         NumberResponse.NumberResponseBuilder builder = NumberResponse.builder()
             .number(number)
-            .isInteger(isInteger);
+            .isPrime(null)
+            .isPerfect(null)
+            .digitSum(null);
 
         if (isInteger) {
+            List<String> properties = new ArrayList<>();
+            // Add sign property
+            properties.add(integerValue < 0 ? "negative" : "positive");
+            // Add even/odd
+            properties.add(NumberUtils.isEven(integerValue) ? "even" : "odd");
+            // Add special number properties
+            if (NumberUtils.isArmstrong(integerValue)) {
+                properties.add("armstrong");
+            }
+            
             builder.isPrime(NumberUtils.isPrime(integerValue))
                    .isPerfect(NumberUtils.isPerfect(integerValue))
-                   .properties(NumberUtils.getProperties(integerValue))
+                   .properties(properties)
                    .digitSum(NumberUtils.digitSum(integerValue))
                    .funFact(fetchFunFact(integerValue));
         } else {
-            builder.isPrime(null)
-                   .isPerfect(null)
-                   .properties(List.of("non-integer"))
-                   .digitSum(null)
+            builder.properties(List.of("non-integer"))
                    .funFact("Non-integer numbers cannot be classified as prime, perfect, or Armstrong.");
         }
 
@@ -47,10 +55,9 @@ public class NumberServiceImpl implements NumberServiceInterface {
 
     private String fetchFunFact(int number) {
         if (NumberUtils.isArmstrong(number)) {
-            String digits = String.valueOf(number).replace("", " ").trim();
-            int length = digits.split(" ").length;
-            String formula = digits.replace(" ", "^" + length + " + ") + "^" + length + " = " + number;
-            return number + " is an Armstrong number because " + formula;
+            String digits = String.valueOf(Math.abs(number)).replace("", " ");
+            digits = digits.trim().replace(" ", "^" + String.valueOf(number).length() + " + ");
+            return number + " is an Armstrong number because " + digits + "= " + Math.abs(number);
         }
         try {
             String url = "http://numbersapi.com/" + number + "/math?json";

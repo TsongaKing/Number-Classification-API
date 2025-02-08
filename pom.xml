@@ -28,12 +28,11 @@
     </properties>
 
     <dependencies>
-        <!-- Spring Boot Core Dependencies -->
+        <!-- Spring Boot Core -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
@@ -44,81 +43,64 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
 
-        <!-- Testing Dependencies -->
+        <!-- Testing -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
 
-        <!-- JUnit 5 for Testing -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Mockito for Mocking -->
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>5.10.0</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Spring Boot DevTools (Optional) -->
+        <!-- Optional DevTools -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>io.github.u004</groupId>
-            <artifactId>slf4j-ext</artifactId>
-            <version>2.0.3</version>
-            <type>jar</type>
-        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Spring Boot Maven Plugin -->
+            <!-- Spring Boot Plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
             </plugin>
 
-            <!-- Azure Maven Plugin for Deployment -->
+            <!-- Azure Deployment -->
             <plugin>
                 <groupId>com.microsoft.azure</groupId>
                 <artifactId>azure-webapp-maven-plugin</artifactId>
                 <version>${azure.maven.plugin.version}</version>
                 <configuration>
                     <schemaVersion>V2</schemaVersion>
-                    <resourceGroup>devops-stage1-rg</resourceGroup> <!-- Replace with your Azure group -->
-                    <appName>NumberClassificationAPI</appName>      <!-- Match Azure portal name -->
-                    <pricingTier>S1</pricingTier>                   <!-- Standard tier (matches your deployment) -->
-                    <region>southafricanorth</region>               <!-- Match your region -->
+                    <resourceGroup>devops-stage1-rg</resourceGroup>
+                    <appName>NumberClassificationAPI</appName>
+                    <pricingTier>S1</pricingTier>
+                    <region>southafricanorth</region>
                     <runtime>
-                        <os>Windows</os>                            <!-- Align with Azure OS -->
+                        <os>Linux</os>
                         <javaVersion>Java 17</javaVersion>
                         <webContainer>Java SE</webContainer>
                     </runtime>
                     <deployment>
                         <resources>
                             <resource>
-                                <directory>${project.basedir}/target</directory>
+                                <directory>${project.build.directory}</directory>
                                 <includes>
                                     <include>*.jar</include>
+                                    <include>web.config</include>
                                 </includes>
                             </resource>
                         </resources>
@@ -126,7 +108,34 @@
                 </configuration>
             </plugin>
 
-            <!-- Compiler Plugin for Java 17 -->
+            <!-- Resource Handling -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-web-config</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <includes>
+                                        <include>web.config</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

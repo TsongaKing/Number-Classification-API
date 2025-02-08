@@ -17,18 +17,15 @@ public class NumberController {
     }
 
     @GetMapping("/classify-number")
-public ResponseEntity<?> classifyNumber(@RequestParam String number) {
-    try {
-        String trimmedNumber = number.trim();
-        double parsedNumber = Double.parseDouble(trimmedNumber); // Parse as double
-        
-        // Return 200 OK for all numeric inputs (including floating-point)
-        return ResponseEntity.ok(numberService.classifyNumber(parsedNumber));
-    } catch (NumberFormatException e) {
-        // Return 400 Bad Request only for non-numeric inputs (e.g., "abc")
-        return ResponseEntity.badRequest().body(
-            ErrorResponse.builder().number(number).build()
-        );
+    public ResponseEntity<?> classifyNumber(@RequestParam String number) {
+        try {
+            String trimmedNumber = number.trim();
+            double parsedNumber = Double.parseDouble(trimmedNumber);
+            return ResponseEntity.ok(numberService.classifyNumber(parsedNumber));
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().body(
+                ErrorResponse.builder().number(number).build()
+            );
+        }
     }
-}
 }
