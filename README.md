@@ -57,12 +57,12 @@ A REST API that analyzes numbers and returns mathematical properties with fun fa
 ### Endpoint
 ```http
 GET /api/classify-number?number={value}
+
 Parameters
 Name	Type	Required	Description	Example
 number	String	Yes	Numeric value to analyze	371, -5.5
+
 Response Structure
-json
-Copy
 {
     "number": 371,
     "is_prime": false,
@@ -71,6 +71,7 @@ Copy
     "digit_sum": 11,
     "fun_fact": "371 is an Armstrong number because 3^3 + 7^3 + 1^3 = 371"
 }
+
 Error Handling
 Status Code	Scenario	Example Response
 400	Invalid/Missing Parameter	{"number": "abc", "error": true}
@@ -85,33 +86,25 @@ Azure Account (Free Trial)
 
 Local Development
 Clone repository:
-
-bash
-Copy
 git clone https://github.com/yourusername/number-classification-api.git
 cd number-classification-api
-Build and run:
 
-bash
-Copy
+Build and run:
 mvn clean package
 mvn spring-boot:run
-Test endpoint:
 
-bash
-Copy
+Test endpoint:
 curl "http://localhost:8080/api/classify-number?number=28"
+
+
 Azure Deployment ☁️
 1. Azure Setup
-bash
-Copy
 az login
 az extension add --name spring
 az group create --name num-classification-rg --location eastus
 az spring create --name num-classification-service --resource-group num-classification-rg
+
 2. Build & Deploy
-bash
-Copy
 mvn clean package -DskipTests
 az spring app deploy \
     --name number-classification-api \
@@ -119,17 +112,15 @@ az spring app deploy \
     --service num-classification-service \
     --runtime-version Java_17 \
     --artifact-path target/number-classification-api-1.0-SNAPSHOT.jar
+
 3. Get Endpoint URL
-bash
-Copy
 az spring app show --name number-classification-api \
     --resource-group num-classification-rg \
     --service num-classification-service \
     --query properties.url
+
 Testing Examples 🧪
 Valid Requests
-bash
-Copy
 # Armstrong Number
 curl "https://your-app.azuremicroservices.io/api/classify-number?number=371"
 
@@ -138,32 +129,26 @@ curl "https://your-app.azuremicroservices.io/api/classify-number?number=28"
 
 # Negative Number
 curl "https://your-app.azuremicroservices.io/api/classify-number?number=-7"
+
 Edge Cases
-bash
-Copy
 # Floating-Point
 curl "https://your-app.azuremicroservices.io/api/classify-number?number=3.14"
 
 # Zero Handling
 curl "https://your-app.azuremicroservices.io/api/classify-number?number=0"
+
 Contributing 🤝
 Fork the repository
 
 Create your feature branch:
-
-bash
-Copy
 git checkout -b feature/amazing-feature
+
 Commit changes:
-
-bash
-Copy
 git commit -m 'Add amazing feature'
-Push to branch:
 
-bash
-Copy
+Push to branch:
 git push origin feature/amazing-feature
+
 Open a Pull Request
 
 License 📄
