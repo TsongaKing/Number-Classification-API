@@ -22,7 +22,8 @@ import java.util.List;
     "fun_fact"
 })
 public class NumberResponse {
-    private double number;
+    @JsonProperty("number")
+    private Number number;
 
     @JsonProperty("is_prime")
     private Boolean isPrime;
