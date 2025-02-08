@@ -34,15 +34,18 @@ public class NumberUtils {
     }
 
     public static boolean isArmstrong(int number) {
-        int original = Math.abs(number);
-        int digits = String.valueOf(original).length();
-        int sum = 0;
-        while (original > 0) {
-            int digit = original % 10;
-            sum += Math.pow(digit, digits);
-            original /= 10;
-        }
-        return sum == Math.abs(number);
+    int original = Math.abs(number); // Handle negatives
+    int digits = String.valueOf(original).length();
+    int sum = 0;
+    int temp = original;
+    
+    while (temp > 0) {
+        int digit = temp % 10;
+        sum += Math.pow(digit, digits);
+        temp /= 10;
+    }
+    return sum == original;
+
     }
 
     public static boolean isEven(int number) {
