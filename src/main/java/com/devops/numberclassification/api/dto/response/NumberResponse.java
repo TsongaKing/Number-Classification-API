@@ -23,7 +23,7 @@ import java.util.List;
 })
 public class NumberResponse {
     @JsonProperty("number")
-    private Number number;  // Changed from formattedNumber
+    private Number number;
 
     @JsonProperty("is_prime")
     private Boolean isPrime;

@@ -37,16 +37,20 @@ public class NumberServiceImpl implements NumberServiceInterface {
         return isInteger ? (int) number : number;
     }
 
-    private List<String> buildProperties(int number, boolean isInteger) {
-        if (!isInteger) return List.of("non-integer");
-        
-        List<String> props = new ArrayList<>();
-        props.add(number < 0 ? "negative" : "positive");
-        props.add(NumberUtils.isEven(number) ? "even" : "odd");
-        if (NumberUtils.isArmstrong(number)) props.add("armstrong");
-        return props;
+   
+private List<String> buildProperties(int number, boolean isInteger) {
+    if (!isInteger) return List.of("non-integer");
+    
+    List<String> props = new ArrayList<>();
+    props.add(number < 0 ? "negative" : "positive");
+    props.add(NumberUtils.isEven(number) ? "even" : "odd");
+    
+    if (NumberUtils.isArmstrong(Math.abs(number))) {
+        props.add("armstrong");
     }
-
+    
+    return props;
+}
     private String fetchFunFact(int number) {
         if (NumberUtils.isArmstrong(number)) {
             String digits = String.valueOf(Math.abs(number));
