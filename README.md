@@ -1,6 +1,3 @@
-Here's the final **README.md** in GitHub-flavored markdown ready for copy-paste:
-
-```markdown
 # Number Classification API 🔢
 
 [![Java Version](https://img.shields.io/badge/Java-17%2B-blue)](https://openjdk.org/projects/jdk/17/)
@@ -195,5 +192,3 @@ Distributed under the MIT License. See [LICENSE](LICENSE) for details.
 
 **Happy Number Crunching!** 🚀🔢
 ```
-
-Just copy this entire content into a new `README.md` file in your repository root. Replace placeholder URLs (`yourusername`, `your-app.azuremicroservices.io`) with your actual values.
