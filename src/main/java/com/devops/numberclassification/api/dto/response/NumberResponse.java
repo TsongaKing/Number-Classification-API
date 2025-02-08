@@ -1,5 +1,6 @@
 package com.devops.numberclassification.api.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.*;
@@ -11,6 +12,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "number",
     "is_prime",
@@ -20,18 +22,18 @@ import java.util.List;
     "fun_fact"
 })
 public class NumberResponse {
-    private int number;
+    private double number;
 
     @JsonProperty("is_prime")
-    private boolean isPrime;
+    private Boolean isPrime;
 
     @JsonProperty("is_perfect")
-    private boolean isPerfect;
+    private Boolean isPerfect;
 
     private List<String> properties;
 
     @JsonProperty("digit_sum")
-    private int digitSum;
+    private Integer digitSum;
 
     @JsonProperty("fun_fact")
     private String funFact;
